@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проект "Прогулки по Москве"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6b4f4a;
+            --secondary: #9c786c;
+            --accent: #e8c4b8;
+            --light: #f5ebe6;
+            --dark: #4a3028;
+            --highlight: #d4a59a;
+            --text: #333333;
+            --text-light: #5a5a5a;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.7;
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            background-image: linear-gradient(to bottom, rgba(245, 235, 230, 0.9), rgba(245, 235, 230, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23d4a59a" fill-opacity="0.1" d="M30,10L50,30L70,10L90,30L70,50L90,70L70,90L50,70L30,90L10,70L30,50L10,30L30,10Z"/></svg>');
+        }
+        
+        header {
+            background: linear-gradient(145deg, var(--primary), var(--dark));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--highlight));
+        }
+        
+        nav {
+            background-color: var(--dark);
+            padding: 0.8rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        nav li {
+            margin: 0 1.2rem;
+            position: relative;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+        
+        nav a:hover {
+            background-color: var(--highlight);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        section {
+            margin-bottom: 3.5rem;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark);
+            margin-top: 0;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--highlight));
+            border-radius: 3px;
+        }
+        
+        h3 {
+            font-size: 1.6rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        h4 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+        
+        p {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+        }
+        
+        .project-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .project-image:hover {
+            transform: scale(1.01);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .team-member {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--accent);
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .member-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1.2rem;
+            border: 4px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .journal-entry {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--accent);
+        }
+        
+        .journal-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .journal-date {
+            color: var(--highlight);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            background: rgba(212, 165, 154, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+        }
+        
+        ul {
+            padding-left: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.6rem;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 1.2rem;
+        }
+        
+        li::before {
+            content: "•";
+            color: var(--highlight);
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        
+        .resources-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resources-list li {
+            margin-bottom: 0.8rem;
+            padding-left: 0;
+        }
+        
+        .resources-list li::before {
+            content: none;
+        }
+        
+        .resources-list a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-block;
+            padding: 0.3rem 0;
+            border-bottom: 1px dashed transparent;
+        }
+        
+        .resources-list a:hover {
+            color: var(--primary);
+            border-bottom: 1px dashed var(--highlight);
+            transform: translateX(5px);
+        }
+        
+        footer {
+            background: linear-gradient(145deg, var(--dark), var(--primary));
+            color: white;
+            text-align: center;
+            padding: 2.5rem 0;
+            margin-top: 4rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--highlight));
+        }
+        
+        footer p {
+            color: white;
+            margin: 0.5rem 0;
+            opacity: 0.9;
+        }
+        
+        .team-photo-large {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            border-radius: 12px;
+            margin: 2.5rem auto;
+            display: block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-photo-large:hover {
+            transform: scale(1.01);
+        }
+
+        .team-section {
+            text-align: center;
+        }
+        
+        .flex-columns {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .flex-column {
+            flex: 1 1 45%;
+            min-width: 300px;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .flex-column:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        em {
+            font-style: italic;
+            color: var(--text-light);
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            nav li {
+                margin: 0.3rem 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            section {
+                padding: 1.8rem;
+            }
+            
+            .flex-column {
+                flex: 1 1 100%;
+            }
+        }
+        .role-section {
+            margin-bottom: 3rem;
+        }
+        
+        .role-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .members-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .member-card {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--highlight);
+        }
+        
+        .member-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+        }
+        
+        .member-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+        
+        .member-role {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Проект "Прогулки по Москве"</h1>
+        <p>Игровая платформа для изучения истории столицы</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#home">Главная</a></li>
+            <li><a href="#about">О проекте</a></li>
+            <li><a href="#team">Участники</a></li>
+            <li><a href="#journal">Журнал</a></li>
+            <li><a href="#resources">Ресурсы</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <section id="home">
+            <h2>Добро пожаловать в проект "Прогулки по Москве"!</h2>
+            <img src="image/название_проекта.png" alt="Игровая платформа Прогулки по Москве" class="project-image">
+            <p>Наш проект представляет собой интерактивную игровую платформу, которая позволяет пользователям виртуально исследовать Москву разных исторических периодов.</p>
+            <p>Основная цель - создать уникальный игровой опыт, знакомящий с историей достопримечательностей Москвы и визуализирующий альтернативные исторические проекты.</p>
+        </section>
+        
+        <section id="about">
+            <h2>О проекте</h2>
+            <h3>Цели проекта</h3>
+            <ul>
+                <li>Создание уникального игрового опыта</li>
+                <li>Знакомство с историей достопримечательностей Москвы</li>
+                <li>Визуализация альтернативных исторических проектов</li>
+                <li>Создание уникальной атмосферы исторической Москвы</li>
+                <li>Погружение в культуру различных исторических периодов</li>
+                <li>Создание увлекательного игрового процесса</li>
+            </ul>
+            
+            <h3>Основные задачи</h3>
+            <div class="flex-columns">
+                <div class="flex-column">
+                    <h4>Концепция и анализ:</h4>
+                    <ul>
+                        <li>Разработка концепции и аналитической базы</li>
+                        <li>Создание сюжетной линии с историческими элементами</li>
+                        <li>Проведение исследования исторических материалов</li>
+                    </ul>
+                </div>
+                <div class="flex-column">
+                    <h4>Техническая реализация:</h4>
+                    <ul>
+                        <li>Разработка базовой игровой логики</li>
+                        <li>Настройка серверной части и базы данных</li>
+                        <li>Проектирование интерфейса и главного меню</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+         <section id="team">
+        <h2>Участники проекта</h2>
+        <p>Над проектом работает команда студентов под руководством куратора Косарина С. П.</p>
+        
+        <div class="team-section">
+            <img src="image/команда.jpg" alt="Фото команды проекта" class="team-photo-large">
+            <p><em>Команда разработчиков игровой платформы "Прогулки по Москве"</em></p>
+            
+            <div class="role-section">
+                <h3 class="role-title">Программисты</h3>
+                <div class="members-list">
+                    <div class="member-card">
+                        <div class="member-name">Оганесян Максим Каренович</div>
+                        <div class="member-role">Ведущий разработчик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Идрисов Тамерлан Рамиз оглы</div>
+                        <div class="member-role">Backend-разработчик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Гайнутдинов Рамат Азатович</div>
+                        <div class="member-role">Frontend-разработчик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Кулагин Степан Андреевич</div>
+                        <div class="member-role">Разработчик игровой логики</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Сулаев Илиязбек</div>
+                        <div class="member-role">Разработчик API</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Антипова Анастасия Максимовна</div>
+                        <div class="member-role">Тестировщик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Тушина Валерия Николаевна</div>
+                        <div class="member-role">UI-программист</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Белай Александр Валерьевич</div>
+                        <div class="member-role">Системный архитектор</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="role-section">
+                <h3 class="role-title">Аналитики</h3>
+                <div class="members-list">
+                    <div class="member-card">
+                        <div class="member-name">Борисова Ксения Павловна</div>
+                        <div class="member-role">Бизнес-аналитик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Варушкин Тимофей Александрович</div>
+                        <div class="member-role">Системный аналитик</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Котова Анастасия Георгиевна</div>
+                        <div class="member-role">Аналитик данных</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="role-section">
+                <h3 class="role-title">Дизайнеры</h3>
+                <div class="members-list">
+                    <div class="member-card">
+                        <div class="member-name">Науразова Альвина Максутовна</div>
+                        <div class="member-role">Графический дизайнер</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Цыганок Евгения Ивановна</div>
+                        <div class="member-role">UI/UX дизайнер</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Минеева Анастасия Игоревна</div>
+                        <div class="member-role">Художник</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Казакова Диана Александровна</div>
+                        <div class="member-role">3D-моделлер</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="role-section">
+                <h3 class="role-title">Сюжетники</h3>
+                <div class="members-list">
+                    <div class="member-card">
+                        <div class="member-name">Сальников Даниил Алексеевич</div>
+                        <div class="member-role">Старший сценарист</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Медведев Данил Александрович</div>
+                        <div class="member-role">Сценарист</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Савельева Марина Александровна</div>
+                        <div class="member-role">Исторический консультант</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Минеева Анастасия Игоревна</div>
+                        <div class="member-role">Автор квестов</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Науразова Альвина Максутовна</div>
+                        <div class="member-role">Диалоги</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Цыганок Евгения Ивановна</div>
+                        <div class="member-role">Локализатор</div>
+                    </div>
+                    <div class="member-card">
+                        <div class="member-name">Марущак Анастасия Олеговна</div>
+                        <div class="member-role">Литературный редактор</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        
+        <section id="journal">
+            <h2>Журнал проекта</h2>
+            
+            <div class="journal-entry">
+                <h3>Начало работы над проектом</h3>
+                <p class="journal-date">15 марта 2025</p>
+                <p>Сформирована команда проекта, проведено первое совещание с куратором. Определены основные цели и задачи проекта, составлен предварительный план работы.</p>
+                <p>Начата работа над концепцией игры и анализом исторических материалов.</p>
+            </div>
+            
+            <div class="journal-entry">
+                <h3>Завершение проектирования</h3>
+                <p class="journal-date">5 апреля 2025</p>
+                <p>Завершена работа над архитектурой проекта и дизайн-макетами. Подготовлены:</p>
+                <ul>
+                    <li>Схема игровых локаций</li>
+                    <li>Концепт-арты персонажей</li>
+                    <li>Техническое задание</li>
+                    <li>План разработки</li>
+                </ul>
+                <p>Начата разработка прототипа на Godot Engine.</p>
+            </div>
+            
+            <div class="journal-entry">
+                <h3>Создание прототипа</h3>
+                <p class="journal-date">20 апреля 2025</p>
+                <p>Разработаны первые игровые механики и прототип одной из локаций. Проведено тестирование базового функционала.</p>
+                <p>Создан главный персонаж и система взаимодействия с окружением.</p>
+            </div>
+        </section>
+        
+        <section id="resources">
+            <h2>Полезные ресурсы</h2>
+            
+            <h3>Организации-партнеры</h3>
+            <ul class="resources-list">
+                <li><a href="https://mosmuseum.ru/" target="_blank">Музей Москвы</a></li>
+                <li><a href="https://basmania.moscow/" target="_blank">Музей Басманного района</a></li>
+            </ul>
+            
+            <h3>Технические материалы</h3>
+            <ul class="resources-list">
+                <li><a href="https://godotengine.org/" target="_blank">Официальный сайт Godot Engine</a></li>
+                <li><a href="https://docs.godotengine.org/" target="_blank">Документация Godot</a></li>
+                <li><a href="https://yandex.ru/dev/maps/" target="_blank">API Яндекс.Карт</a></li>
+            </ul>
+            
+            <h3>Исторические источники</h3>
+            <ul class="resources-list">
+                <li><a href="https://oldmos.ru/" target="_blank">Старая Москва в фотографиях</a></li>
+                <li><a href="https://pastvu.com/" target="_blank">Архив исторических фотографий</a></li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2025 Проект "Прогулки по Москве". Группа 241-331, Московский Политех.</p>
+        <p>Все права защищены.</p>
+    </footer>
+</body>
+</html>
